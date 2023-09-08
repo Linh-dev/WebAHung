@@ -1,0 +1,37 @@
+﻿@using eFashionShop.ViewModels.Catalog.Products
+@model List<ProductVm>
+
+<div class="pt-20 general-title bg-color">
+    <h2>@ViewBag.name</h2>
+    <div class="title-devider"></div>
+</div>
+<div class="site-wrapper">
+    <div class="container">
+        <div class="row wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            @{
+                foreach (var item in Model)
+                {
+                    <div class="col-sm-6 col-md-3">
+                        <div class="thumbnail blog-inner">
+                            <!-- Image -->
+                        <a href="/Project/Deital/@item.Id">
+                                <div class="pic-tintuc"
+                                 style="width:100%;height: 200px;background: url('@item.ThumbnailImage');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                                 alt="@item.Description">
+                                </div>
+                            </a>
+                            <div class="caption">
+                                <!-- Title -->
+                            <div class="blog-inner-title">
+                                    <a href="/Project/Deital/@item.Id">
+                                        <h3>@item.Name</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

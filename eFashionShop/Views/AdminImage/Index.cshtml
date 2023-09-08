@@ -1,0 +1,52 @@
+﻿@using eFashionShop.ViewModels.Common;
+@model PagedResult<eFashionShop.ViewModels.Catalog.Images.ImageVm>
+@{
+    ViewData["Title"] = "Danh sách ảnh";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách ảnh</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/adminproduct/index">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách ảnh</li>
+    </ol>
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create" asp-controller="AdminImage">Tạo mới</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+
+                    @foreach (var photo in Model.Items)
+                    {
+                        <div class="col-2 d-flex flex-column">
+                            <img src="@photo.ImagePath" class="img-thumbnail p-1">
+                                                        <div class="d-flex">
+                                <button disabled="@(photo.IsFeatured)"
+                                class="btn btn-sm btn-success flex-grow-1"
+                                type="button"
+                                onclick="location.href='@Url.Action("SetFeaturedImage", "AdminImage", new { id = @photo.Id})'">
+                                Main
+                                </button>
+                                <button disabled="@(photo.IsFeatured)"
+                                class="btn btn-sm btn-danger flex-grow-1"
+                                type="button"
+                                onclick="location.href='@Url.Action("DeleteImage", "AdminImage", new { id = @photo.Id})'">
+                                <i class="fa fa-trash"></i>
+                                </button>
+                                </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+            @await Component.InvokeAsync("AdminPager", Model)
+        </div>
+    </div>
+</div>

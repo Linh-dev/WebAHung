@@ -1,0 +1,165 @@
+﻿@model eFashionShop.ViewModels.WebAppViewModel.HomeViewModel
+
+<div id="banner-carousel" class="h-75 d-inline-block owl-carousel owl-theme" style="margin-left: auto; margin-right: auto; width: 90% !important; text-align: center; padding-top: 10px !important;">
+    @foreach (var image in Model.FeaturedImages)
+    {
+        <div class="item">
+            <img src='@image.ImagePath' alt='@image.Caption'>
+        </div>
+    }
+</div>
+
+<div class="site-wrapper" style="padding-top: 20px !important">
+    <div class="container px-5 text-center">
+        <div class="general-title wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            <h2>Về chúng tôi</h2>
+            <div class="title-devider"></div>
+        </div>
+        <div class="row wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">
+            <div class="col-md-10 col-md-offset-1">
+                <p>
+                <p style="text-align:center">
+                    <h4 style="font-family:Arial,Helvetica,sans-serif">
+                        Công ty HTcom chuyên về lĩnh vực thiết kế nhà ở, thiết kế nội thất thông minh. Với hơn 5 năm kinh nghiệm làm việc trong nghề, HTcom mang đến cho khách hàng giải pháp thiết kế không gian đẹp, tối ưu về chi phí. Đội ngũ chuyên viên thiết kế của HTcom được đào tạo chuyên nghiệp, đáp ứng nhu cầu của khách hàng về thiết kế nhà, nội thất đáp ứng các tiêu chí về công năng và thẩm mỹ đẹp. 
+                    </h4>
+                </p>
+
+                <p style="text-align:center">&nbsp;</p>
+            </div>
+        </div>
+    </div>
+    <!-- Projects -->
+    <div class="container-fluid projects" >
+        <div class="row wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            @foreach (var item in Model.FeaturedProducts)
+            {
+                <div class="col-sm-6 col-md-3">
+                    <div class="project-inner">
+                        <a href="/category/Deital/@item.Id">
+                            <div style="width:100%;height: 300px;background: url('@item.ImagePath');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                             alt='@item.Description'></div>
+                            <div class="project-caption">
+
+                                <div class="project-details">
+                                    @*<p><i class="fa fa-plus fa-lg"></i></p>*@
+                                    <h3>@item.Description</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="all-projects text-center wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+        <a href="/project" class="btn orange-btn">
+            Xem tất cả
+        </a>
+    </div>
+    <!-- End Projects -->
+    <!-- Our Services -->
+    <div class="container padding-top text-center">
+        <div class="general-title wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            <h2>Dịch vụ của chúng tôi</h2>
+            <div class="title-devider"></div>
+        </div>
+        <div class="row wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">
+            <div class="col-md-10 col-md-offset-1">
+                <p>
+                <p style="text-align:center"><span style="font-size:14px"></span></p>
+
+                <p style="margin-left:0in; margin-right:0in; text-align:center">
+                    <span style="font-size:14px">
+                        <h4 style="font-family:Arial,Helvetica,sans-serif">
+                           Công ty thiết kế THcom cung cấp dịch vụ thiết kế nội ngoại thất cho: Nhà ở, căn hộ, khách sạn, nhà hàng, quán bar… Chúng tôi không ngừng cập nhật những xu hướng kiến trúc mới, thiết kế nội thất đẹp, thông minh làm hài lòng khách hàng. Với đội ngũ chuyên gia và kỹ sư thiết kế xây dựng giàu kinh nghiệm HTcom sẽ mang lại cho khách hàng giải pháp nhà đẹp, thông minh và trọn vẹn. Dịch vụ thiết kế nhà ở, nội - ngoại thất HTcom chuyên nghiệp, tận tâm sẽ là sự lựa chọn hoàn hảo cho căn nhà của bạn.
+                        </h4>
+                    </span>
+                </p>
+
+                <p style="margin-left:0in; margin-right:0in; text-align:center">
+                    <span style="font-size:14px">
+                        <h4 style="font-family:Arial,Helvetica,sans-serif">
+                            Xin chân thành cảm ơn quý khách đã sử dụng dịch vụ của HTcom. Chúng tôi luôn mong muốn được phục vụ khách hàng, hoàn thiện để có dịch vụ tốt hơn nữa.
+                        </h4>
+                    </span>
+                </p>
+
+                <p style="margin-left:0in; margin-right:0in; text-align:center">&nbsp;</p>
+
+                <p style="margin-left:0in; margin-right:0in; text-align:center">&nbsp;</p>
+
+                <p style="text-align:center"><span style="font-size:14px"></span></p>
+            </div>
+        </div>
+        <div class="row wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            <div class="col-md-1">
+            </div>
+
+            <div class="col-sm-6 col-md-2 col-xs-6">
+                <a>
+                    <div class="icon-a"
+                         style="width:100%;height: 190px;background: url('/images/quy-trinh-thiet-ke.jpg');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                         alt="Quy trình thiết kế"></div>
+                </a>
+                <div class="service-title">
+                    <h3>Quy trình thiết kế</h3>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-2 col-xs-6">
+                <a>
+                    <div class="icon-a"
+                         style="width:100%;height: 190px;background: url('/images/quy-trinh-thi-cong.jpg');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                         alt="Quy trình thi công"></div>
+                </a>
+                <div class="service-title">
+                    <h3>Quy trình thi công</h3>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-2 col-xs-6">
+                <a>
+                    <div class="icon-a"
+                         style="width:100%;height: 190px;background: url('/images/hop-dong-mau.jpg');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                         alt="Hợp đồng mẫu"></div>
+                </a>
+                <div class="service-title">
+                    <h3>Hợp đồng mẫu</h3>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-2 col-xs-6">
+                <a>
+                    <div class="icon-a"
+                         style="width:100%;height: 190px;background: url('/images/bao-gia.jpg');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                         alt="Báo giá"></div>
+                </a>
+                <div class="service-title">
+                    <h3>Báo giá</h3>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-2 col-xs-6">
+                <a>
+                    <div class="icon-a"
+                         style="width:100%;height: 190px;background: url('/images/khach-hang.jpg');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                         alt="Khách hàng"></div>
+                </a>
+                <div class="service-title">
+                    <h3>Khách hàng</h3>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+        <div class=" padding-bottom wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            <a href="/service" class="btn black-btn">
+                Xem dịch vụ
+            </a>
+        </div>
+    </div>
+    <!-- End  -->
+    <!-- tin tức - blog-->
+    <!-- start -->
+</div>
+

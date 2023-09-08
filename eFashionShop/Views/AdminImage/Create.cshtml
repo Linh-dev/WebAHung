@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="container-fluid">
+    <h1 class="mt-4">Thêm mới ảnh</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/adminimage/index">Trờ về</a></li>
+        <li class="breadcrumb-item active">Thêm mới ảnh</li>
+    </ol>
+    <div class="card mb-12">
+        <form id="checkImage" asp-action="AddListImages" asp-controller="AdminImage" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input name="images" type="file" multiple class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <input id="submitbutton" type="submit" value="Upload" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+

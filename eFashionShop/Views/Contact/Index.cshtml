@@ -1,0 +1,77 @@
+﻿@model eFashionShop.Data.Entities.Contact
+
+    <div class="pt-20 general-title bg-color">
+        <h2>Liên hệ</h2>
+        <div class="title-devider"></div>
+    </div>
+    <div class="site-wrapper">
+        <!-- Contact -->
+        <div style="padding-bottom: 20px;" class="container padding-bottom text-center contact-adress">
+            <div class="row wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+                <div class="col-md-8 col-md-offset-2">
+                    <p></p>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <h3>Địa chỉ</h3>
+                    <address>
+                        <p>&nbsp;</p>
+
+                        <p>@Model.Address
+                        </p>
+                    </address>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <h3>Liên hệ</h3>
+                    <address>
+                        <p>@Model.Email</p>
+
+                        <p>@Model.Website</p>
+
+                        <p>Tel: @Model.PhoneNumber</p>
+
+                    </address>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <h3>Giờ làm việc</h3>
+                    <address>
+                        <p>Thứ 2 - Thứ 7&nbsp;: 8:30 - 17:30<br />
+                            Chủ Nhật : Nghỉ</p>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pt-10 general-title">
+                <h2><b style="color: #008648;">@ViewBag.Message</b></h2>
+    </div>
+    <div class="bg-color">
+        <div class="container wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            <div class="col-lg-12" id="contact">
+                <form method="post" asp-action="SendInformation" asp-controller="Contact">
+                    @*<input type="hidden" name="_token" value="Fyb1jMPeHZCMl9QmEh2pe3A11tYzQ2hQj7MyneAb">*@
+                    @*<fieldset>*@
+                        <div class="col-md-6">
+                            <input name="name" type="text" id="name" size="30" value="" placeholder="Name" required />
+                            <br />
+                            <input name="email" type="email" id="email" size="30" value="" placeholder="Email"
+                                required />
+                            <br />
+                            <input name="phone" type="tel" id="phone" size="30" value="" placeholder="Phone" required />
+                        </div>
+                        <div class="col-md-6">
+                            <textarea name="content" cols="40" rows="5" id="content" placeholder="Message"
+                                required></textarea>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-default btn-submit submit">Gửi liên hệ</button>
+                        </div>
+                    @*</fieldset>*@
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<p><iframe frameborder="0" height="450"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7505.2680580962815!2d105.8492103020774!3d19.8554321664289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31365975ceb6d9cb%3A0xcd80696ac3780ecd!2zQuG7h25oIHZp4buHbiBIdXnhu4duIEhv4bqxbmcgSMOzYQ!5e0!3m2!1svi!2s!4v1653477192904!5m2!1svi!2s"
+        style="border:0" width="100%"></iframe></p>

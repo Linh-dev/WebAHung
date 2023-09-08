@@ -1,0 +1,56 @@
+﻿@model eFashionShop.ViewModels.Catalog.Categories.CategoryUpdateVm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h4>Sửa danh mục</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Tên</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="File" class="control-label">Ảnh</label>
+                <input asp-for="File" type="file" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsShowOnHome" /> @Html.DisplayNameFor(model => model.IsShowOnHome)
+                </label>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="ParentId" class="control-label">Danh mục cha: </label>
+                <select asp-for="ParentId" name="ParentId">
+                    <option value="-1"></option>
+                    @if (ViewBag.ListCategoryParent != null)
+                    {
+                        foreach (var item in ViewBag.ListCategoryParent)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+
+                </select>
+                <span asp-validation-for="ParentId" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br /><br /><br />
+<div>
+    <a asp-action="Index"><h5>Back to List</h5></a>
+</div>
+

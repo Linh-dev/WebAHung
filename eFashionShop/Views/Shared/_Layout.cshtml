@@ -1,0 +1,337 @@
+﻿@using eFashionShop.Application.Contacts
+@using eFashionShop.Data.Entities
+@using eFashionShop.Data.Enums
+
+@inject IContactService contactService
+@{
+    var contact = contactService.Default().Result;
+    if(contact == null)
+    {
+        contact = new Contact()
+                {
+                    Id = -1,
+                    Name = "Null",
+                    Email = "Null",
+                    PhoneNumber = "Null",
+                    Address = "Null",
+                    Website = "Null",
+                    Message = "Null",
+                    Default = false,
+                    Status = Status.Active
+                };
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="HTCom - Chúng tôi chuyên tư vấn thiết kế kiến trúc, nội thất nhà ở, văn phòng, biệt thự,... và hỗ trợ thi công công trình">
+    <meta name="keywords" content="website desing, mobile application development">
+    <meta name="author" content="HTCom Kiến Trúc Đẹp">
+    <meta property="og:title" content="HTCom Kiến Trúc Đẹp" />
+    <meta property="og:image:alt" content="HTCom Kiến Trúc Đẹp">
+    <meta property="og:type" content="website">
+    <meta property="og:description"
+        content="HTCom - Chúng tôi chuyên tư vấn thiết kế kiến trúc, nội thất nhà ở, văn phòng, biệt thự,... và hỗ trợ thi công công trình" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset;=latin,cyrillic' rel='stylesheet'
+        type='text/css'>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <title>HTcom - Nhà Đẹp</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link media="all" type="text/css" rel="stylesheet"
+        href="/themes/css/bootstrap.min.css">
+    <link media="all" type="text/css" rel="stylesheet"
+        href="/themes/css/owl.carousel.min.css">
+    <link media="all" type="text/css" rel="stylesheet"
+        href="/themes/css/owl.theme.default.min.css">
+    <link media="all" type="text/css" rel="stylesheet"
+        href="/themes/css/animate.min.css">
+    <link media="all" type="text/css" rel="stylesheet"
+        href="/themes/css/lightbox.css">
+    <link media="all" type="text/css" rel="stylesheet"
+        href="/themes/font-awesome/css/font-awesome.css">
+    <link media="all" type="text/css" rel="stylesheet" href="/themes/css/house.css">
+
+@*    <link href="/css/font-awesome.min.css" media="all" type="text/css" rel="stylesheet">
+    <link href="/css/lightgallery.min.css" media="all" type="text/css" rel="stylesheet">*@
+
+    <script src="/themes/js/jquery-1.11.3.min.js"></script>
+    <script src="/themes/js/bootstrap.min.js"></script>
+    <script src="/themes/js/owl.carousel.min.js"></script>
+    <script src="/themes/js/wow.min.js"></script>
+    <script src="/themes/js/lightbox.js"></script>
+    <script src="/themes/js/house.js"></script>
+    <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script>
+    <script>$(document).ready(function () { function detectmob() { if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) { return true; } else { return false; } } var t = { delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button") }; setTimeout(function () { $("div.fb-livechat").fadeIn() }, 8 * t.delay); if (!detectmob()) { $(".ctrlq").on("click", function (e) { e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({ bottom: 0, opacity: 0 }, 2 * t.delay, function () { $(this).hide("slow"), t.button.show() })) : t.button.fadeOut("medium", function () { t.widget.stop().show().animate({ bottom: "30px", opacity: 1 }, 2 * t.delay), t.overlay.fadeIn(t.delay) }) }) } });</script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default header-navbar" role="navigation">
+        <div class="container wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms" style="width: 80%;">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">
+                            <img class="logo" src="\themes\artviet\logo.jpg"
+                                alt="Logo HTcom - Nhà Đẹp">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a class="" href="/">Trang chủ
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="" href="/introduce">Giới thiệu
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="" href="/Service">Dịch vụ
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="" href="/category">Dự Án
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="" href="/Contact">Liên hệ
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+        <div id="mainBody">
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+    <footer id="footer">
+        <div class="container" style="width: 85%;">
+            <div class="row" style="margin-bottom: 10px;">
+                <!-- Copyright -->
+                <div class="col-md-4">
+                    <h4>C&ocirc;ng ty Cổ phần thiết kế HTcom</h4>
+
+                    <p>@(contact.Address)</p>
+
+                    <p>Tel: @(contact.PhoneNumber)</p>
+
+                    <p>E-mail: @(contact.Email)</p>
+
+                    <p>Website <a href="@(contact.Website)">http://@(contact.Website)</a></p>
+
+                    <p>Copyright 2022 &copy;</p>
+                </div>
+                <!-- Footer Social Icons -->
+                <div class="col-md-4 text-center">
+                </div>
+
+                <!-- Up Button -->
+                <div class="col-md-4 ">
+                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FHTcomHOME%2F&tabs=timeline&width=340&height=300&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="340" height="250" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                </div>
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </footer>
+    <style>
+        .fb-livechat,
+        .fb-widget {
+            display: none
+        }
+
+        .ctrlq.fb-button,
+        .ctrlq.fb-close {
+            position: fixed;
+            right: 24px;
+            cursor: pointer
+        }
+
+        .ctrlq.fb-button {
+            z-index: 999;
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEyOCAxMjgiIGhlaWdodD0iMTI4cHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxMjggMTI4IiB3aWR0aD0iMTI4cHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxyZWN0IGZpbGw9IiMwMDg0RkYiIGhlaWdodD0iMTI4IiB3aWR0aD0iMTI4Ii8+PC9nPjxwYXRoIGQ9Ik02NCwxNy41MzFjLTI1LjQwNSwwLTQ2LDE5LjI1OS00Niw0My4wMTVjMCwxMy41MTUsNi42NjUsMjUuNTc0LDE3LjA4OSwzMy40NnYxNi40NjIgIGwxNS42OTgtOC43MDdjNC4xODYsMS4xNzEsOC42MjEsMS44LDEzLjIxMywxLjhjMjUuNDA1LDAsNDYtMTkuMjU4LDQ2LTQzLjAxNUMxMTAsMzYuNzksODkuNDA1LDE3LjUzMSw2NCwxNy41MzF6IE02OC44NDUsNzUuMjE0ICBMNTYuOTQ3LDYyLjg1NUwzNC4wMzUsNzUuNTI0bDI1LjEyLTI2LjY1N2wxMS44OTgsMTIuMzU5bDIyLjkxLTEyLjY3TDY4Ljg0NSw3NS4yMTR6IiBmaWxsPSIjRkZGRkZGIiBpZD0iQnViYmxlX1NoYXBlIi8+PC9zdmc+) center no-repeat #0084ff;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            bottom: 50px;
+            border: 0;
+            outline: 0;
+            border-radius: 60px;
+            -webkit-border-radius: 60px;
+            -moz-border-radius: 60px;
+            -ms-border-radius: 60px;
+            -o-border-radius: 60px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .06), 0 2px 32px rgba(0, 0, 0, .16);
+            -webkit-transition: box-shadow .2s ease;
+            background-size: 80%;
+            transition: all .2s ease-in-out
+        }
+
+        .ctrlq.fb-button:focus,
+        .ctrlq.fb-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .09), 0 4px 40px rgba(0, 0, 0, .24)
+        }
+
+        .fb-widget {
+            background: #fff;
+            z-index: 1000;
+            position: fixed;
+            width: 360px;
+            height: 435px;
+            overflow: hidden;
+            opacity: 0;
+            bottom: 0;
+            right: 24px;
+            border-radius: 6px;
+            -o-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            box-shadow: 0 5px 40px rgba(0, 0, 0, .16);
+            -webkit-box-shadow: 0 5px 40px rgba(0, 0, 0, .16);
+            -moz-box-shadow: 0 5px 40px rgba(0, 0, 0, .16);
+            -o-box-shadow: 0 5px 40px rgba(0, 0, 0, .16)
+        }
+
+        .fb-credit {
+            text-align: center;
+            margin-top: 8px
+        }
+
+        .fb-credit a {
+            transition: none;
+            color: #bec2c9;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            text-decoration: none;
+            border: 0;
+            font-weight: 400
+        }
+
+        .ctrlq.fb-overlay {
+            z-index: 0;
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            -webkit-transition: opacity .4s, visibility .4s;
+            transition: opacity .4s, visibility .4s;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .05);
+            display: none
+        }
+
+        .ctrlq.fb-close {
+            z-index: 4;
+            padding: 0 6px;
+            background: #365899;
+            font-weight: 700;
+            font-size: 11px;
+            color: #fff;
+            margin: 8px;
+            border-radius: 3px
+        }
+
+        .ctrlq.fb-close::after {
+            content: "X";
+            font-family: sans-serif
+        }
+
+        .bubble {
+            width: 20px;
+            height: 20px;
+            background: #c00;
+            color: #fff;
+            position: absolute;
+            z-index: 999999999;
+            text-align: center;
+            vertical-align: middle;
+            top: -2px;
+            left: -5px;
+            border-radius: 50%;
+        }
+
+        .bubble-msg {
+            width: 120px;
+            left: -140px;
+            top: 5px;
+            position: relative;
+            background: rgba(59, 89, 152, .8);
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+        }
+    </style>
+        <div class="fb-livechat">
+        <div class="ctrlq fb-overlay"></div>
+        <div class="fb-widget">
+            <div class="ctrlq fb-close"></div>
+            <div class="fb-page" data-href="https://www.facebook.com/HTcomHOME" data-tabs="messages"
+                data-width="360" data-height="400" data-small-header="true" data-hide-cover="true"
+                data-show-facepile="false"> </div>
+            @*<div class="fb-credit"> <a href="https://www.facebook.com/HTcomHOME" target="_blank">Powered by Chanhtuoi</a> </div>*@
+            <div id="fb-root"></div>
+        </div><a href="https://m.me/HTcomHOME" title="Gửi tin nhắn cho chúng tôi qua Facebook"
+            class="ctrlq fb-button">
+            <div class="bubble">1</div>
+            <div class="bubble-msg">Bạn cần hỗ trợ?</div>
+        </a>
+    </div>
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "110679134984929");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v14.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+</body>
+
+</html>

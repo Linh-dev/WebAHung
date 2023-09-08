@@ -1,0 +1,119 @@
+﻿@model eFashionShop.ViewModels.Catalog.Products.ProductUpdateRequest
+@{
+    ViewData["Title"] = "Cập nhật sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+<script src="/adminTemplate/js/ckeditor/ckeditor.js"></script>
+<div class="container-fluid">
+    <h1 class="mt-4">Cập nhật sản phẩm</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/adminproduct/index">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Cập nhật sản phẩm</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index" asp-controller="AdminProduct">Về danh sách</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-8">
+                <form asp-action="Edit" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Tên</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label">Mô tả</label>
+                        <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Details" class="control-label">Mô tả chi tiết</label>
+                        @*<textarea id="txt_details" asp-for="Details" rows="8" class="form-control"></textarea>*@
+                        @Html.TextAreaFor(model => model.Details, new {@id = "txt_details", @class = "form-control", @rows = "8"})
+                        <span asp-validation-for="Details" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Customer" class="control-label">Khách hàng</label>
+                        <input class="form-control"  asp-for="Customer" />
+                        <span asp-validation-for="Customer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Localtion" class="control-label">Địa điểm</label>
+                        <input asp-for="Localtion" class="form-control" />
+                        <span asp-validation-for="Localtion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Area" class="control-label">Diện tích</label>
+                        <input asp-for="Area" class="form-control" />
+                        <span asp-validation-for="Area" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IsFeatured" class="control-label">Sản phẩm nổi bật</label>
+                        <input asp-for="IsFeatured" type="checkbox"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                    </div>
+                </form>
+                <hr />
+                <div class="container">
+                    <div class="row">
+
+                        @foreach (var photo in ViewBag.images)
+                        {
+                            <div class="col-2 d-flex flex-column">
+                                <img src="@(photo.ImagePath)" class="img-thumbnail p-1">
+                                <div class="d-flex">
+                                    <button disabled="@(photo.IsDefault)"
+                                        class="btn btn-sm btn-success flex-grow-1"
+                                        type="button"
+                                        onclick="location.href='@Url.Action("SetMainImage", "AdminProduct", new { id = @photo.Id, productImageId = @photo.ProductId })'">
+                                        Main
+                                    </button>
+                                    <button disabled="@(photo.IsDefault)"
+                                        class="btn btn-sm btn-danger flex-grow-1"
+                                        type="button"
+                                        onclick="location.href='@Url.Action("DeleteImage", "AdminProduct", new { id = @photo.Id, productImageId = @photo.ProductId })'">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                <form id="checkImage" asp-action="AddListImages" asp-controller="AdminProduct" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <input name="images" type="file" multiple class="form-control" />
+                        <span class="text-danger"></span>
+                        <input name="productId" type="number" value=@Model.Id hidden />
+                    </div>
+                    <input id="submitbutton" type="submit" value="Upload" class="btn btn-primary" />
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    CKEDITOR.replace("txt_details");
+</script>
+@*<script>
+    var $form = $("#checkImage");
+    var $submitbutton = $("#submitbutton");
+
+    $form.on("blur", "input", () => {
+    if ($form.valid()) {
+    $submitbutton.removeAttr("disabled");
+    } else {
+    $submitbutton.attr("disabled", "disabled");
+    }
+    });
+    </script>*@

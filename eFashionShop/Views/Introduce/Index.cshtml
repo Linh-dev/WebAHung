@@ -1,0 +1,125 @@
+﻿@using eFashionShop.ViewModels.WebAppViewModel
+@model IntroduceViewModel
+<!-- Section General Title -->
+<div class="pt-20 general-title bg-color">
+    <h2>Giới thiệu</h2>
+    <div class="title-devider"></div>
+</div>
+
+<!-- Site Wrapper -->
+<div class="site-wrapper">
+
+    <!-- About Us -->
+    <div>
+        <div class="row padding-bottom wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            <div class="col-md-10 col-md-offset-1">
+
+                <div class="col-md-12 text-justify">
+                    @if (Model.FeaturedImages.Count > 0)
+                    {
+                        <p><img alt="" src="@Model.FeaturedImages[0].ImagePath" style="height:25%; width:100%" /></p>
+                    }
+
+                    <p>&nbsp;</p>
+
+                    <p>
+                        <span style="font-family:Arial,Helvetica,sans-serif">
+                            <span style="font-size:16px"></span>
+                        </span>
+                    </p>
+
+                    <p>
+                        <span style="font-family:Arial,Helvetica,sans-serif">
+                            <h4 style="font-size:16px">
+                                Công ty HTcom chuyên về lĩnh vực thiết kế nhà ở, thiết kế nội thất thông minh. Với hơn 5 năm kinh nghiệm làm việc trong nghề, HTcom mang đến cho khách hàng giải pháp thiết kế không gian đẹp, tối ưu về chi phí. Đội ngũ chuyên viên thiết kế của HTcom được đào tạo chuyên nghiệp, đáp ứng nhu cầu của khách hàng về thiết kế nhà, nội thất đáp ứng các tiêu chí về công năng và thẩm mỹ đẹp. Dịch vụ của chúng tôi
+                            </h4>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-10 col-md-offset-1 padding-top">
+                <div id="studio-carousel" class=" owl-carousel owl-theme">
+                    @foreach (var item in Model.FeaturedImages)
+                    {
+                        <div class="item">
+                            <img src="@item.ImagePath" alt="Specifie an alternate text for an image">
+                        </div>
+                    }
+                </div>
+                <p>&nbsp;</p>
+
+                <p>
+                    <span style="font-family:Arial,Helvetica,sans-serif">
+                        <span style="font-size:16px"></span>
+                    </span>
+                </p>
+
+                <p>
+                    <span style="font-family:Arial,Helvetica,sans-serif">
+                        <h4 style="font-size:30px">
+                            Tại sao nên chọn chúng tôi - HTcom?
+                        </h4>
+                    </span>
+
+                    <span style="font-family:Arial,Helvetica,sans-serif">
+                        <h4 style="font-size:16px">
+                            HTcom với kinh nghiệm hơn 5 năm làm việc trong lĩnh vực, cùng đội ngũ kỹ sư, chuyên gia dày dặn kinh nghiệm, được đào tạo bài bản, tâm huyết với nghề.
+                            Mỗi dự án thiết kế được lên kế hoạch bài bản, hoàn thiện bản vẽ nghiêm túc, đúng tiến độ.
+                        </h4>
+                    </span>
+
+                    <span style="font-family:Arial,Helvetica,sans-serif">
+                        <h4 style="font-size:16px">
+                            Các bản thiết kế kỹ thuật được kiểm tra nghiêm ngặt về độ chính xác, tính an toàn bởi kỹ sư thiết kế xây dựng nhiều năm kinh nghiệm, chuyên môn cao. Khách hàng được giám sát quá trình thiết kế, được tư vấn và thay đổi bản vẽ kịp thời, đảm bảo sự thống nhất của cả 2 bên.
+                        </h4>
+                    </span>
+
+                    <span style="font-family:Arial,Helvetica,sans-serif">
+                        <h4 style="font-size:16px">
+                            HTcom cung cấp trọn gói các dịch vụ thiết kế nội - ngoại thất, giám sát thi công, cải tạo, xây mới công trình. Dịch vụ HTcom mang đến cho khách hàng giải pháp đồng bộ, thống nhất và tiết kiệm chi phí.
+                        </h4>
+                    </span>
+
+                    <span style="font-family:Arial,Helvetica,sans-serif">
+                        <h4 style="font-size:16px">
+                            HTcom có chính sách bảo trì, bảo hành lâu dài, đảm bảo quyền lợi khách hàng và hỗ trợ dịch vụ tốt nhất.
+                        </h4>
+                    </span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="general-title wow fadeInUp animated" data-wow-duration="1000ms" data-wow-delay="200ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 200ms; animation-name: fadeInUp;">
+        <h2>Dự án nổi bật</h2>
+        <div class="title-devider"></div>
+    </div>
+    <div class="container-fluid projects">
+        <div class="row wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+            @foreach (var item in Model.FeaturedProducts)
+            {
+                <div class="col-sm-6 col-md-3">
+                    <div class="project-inner">
+                        <a href="/category/Deital/@item.Id">
+                            <div style="width:100%;height: 300px;background: url('@item.ImagePath');background-size: cover;background-position: center center;background-repeat: no-repeat;background-color: #fff;"
+                             alt='@item.Description'></div>
+                            <div class="project-caption">
+
+                                <div class="project-details">
+                                    @*<p><i class="fa fa-plus fa-lg"></i></p>*@
+                                    <h3>@item.Description</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="all-projects text-center wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="200ms">
+        <a href="/project" class="btn orange-btn">
+            Xem tất cả
+        </a>
+    </div>
+</div>
