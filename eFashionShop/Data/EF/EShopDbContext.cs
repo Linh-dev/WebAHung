@@ -34,8 +34,8 @@ namespace eFashionShop.Data.EF
             modelBuilder.Entity<ProductImage>().HasKey(x => x.Id);
 
             modelBuilder.Entity<ProductInCategory>().HasKey(t => new { t.CategoryId, t.ProductId });
-            modelBuilder.Entity<ProductInCategory>().HasOne(t => t.Product).WithMany(pc => pc.ProductInCategories)
-                .HasForeignKey(pc => pc.ProductId);
+            //modelBuilder.Entity<ProductInCategory>().HasOne(t => t.Product).WithMany(pc => pc.ProductInCategories)
+                //.HasForeignKey(pc => pc.ProductId);
             modelBuilder.Entity<ProductInCategory>().HasOne(t => t.Category).WithMany(pc => pc.ProductInCategories)
               .HasForeignKey(pc => pc.CategoryId);
 

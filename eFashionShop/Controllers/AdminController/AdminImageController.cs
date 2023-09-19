@@ -58,10 +58,13 @@ namespace eFashionShop.Controllers.AdminController
                     };
                     res.Add(image);
                 }
-                await _imageService.AddImage(res);
+                foreach (var image in res)
+                {
+                    await _imageService.AddImage(image, int.MaxValue);
+                }
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 return BadRequest(ex);

@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eFashionShop.Application.Categories;
+using eFashionShop.Application.Images;
 using eFashionShop.Application.Products;
 using eFashionShop.Constants;
 using eFashionShop.Exceptions;
+using eFashionShop.ViewModels.Catalog.Images;
 using eFashionShop.ViewModels.Catalog.ProductImages;
 using eFashionShop.ViewModels.Catalog.Products;
 using eFashionShop.ViewModels.Common;
@@ -19,17 +22,19 @@ namespace eFashionShop.Controllers.AdminController
     public class AdminProductController : AdminBaseController
     {
         private readonly IProductService _productService;
+        private readonly IImageService _imageService;
         private readonly IConfiguration _configuration;
 
         private readonly ICategoryService _categoryService;
 
-        public AdminProductController(IProductService productApiClient,
+        public AdminProductController(IProductService productApiClient, IImageService imageService,
             IConfiguration configuration,
             ICategoryService categoryApiClient)
         {
             _configuration = configuration;
             _productService = productApiClient;
             _categoryService = categoryApiClient;
+            _imageService = imageService;
         }
 
         public async Task<IActionResult> Index(string keyword, int? categoryId, int pageIndex = 1, int pageSize = 10)
@@ -87,15 +92,26 @@ namespace eFashionShop.Controllers.AdminController
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> AddListImages([FromForm] List<IFormFile> images, int productId)
         {
-            if (images.Count < 1) return RedirectToAction("Edit", new { id = productId });
-            var res = new ImagesCreateVm()
+            try
             {
-                ImageFiles = images,
-                ProductId = productId
-            };
-            var result = await _productService.AddListImages(res);
-            if (result > 0) return RedirectToAction("Edit", new { id = productId });
-            throw new EShopException("Upload fail!");
+                if (images.Count < 1) return RedirectToAction("Edit", new { id = productId });
+
+
+                foreach (var image in images)
+                {
+                    var res = new ImageCreateRedVm()
+                    {
+                        File = image
+                    };
+                    await _imageService.AddImage(res, productId);
+                }
+                return RedirectToAction("Edit", new { id = productId });
+            }
+            catch (Exception ex)
+            {
+                throw new EShopException("Upload fail!");
+            }
+
         }
 
         [HttpGet]

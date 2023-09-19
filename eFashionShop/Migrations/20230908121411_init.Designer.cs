@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eFashionShop.Data.EF;
 
@@ -11,9 +12,10 @@ using eFashionShop.Data.EF;
 namespace eFashionShop.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230908121411_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace eFashionShop.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "5880f6d2-cec4-4a02-9465-327cf81c6121",
+                            ConcurrencyStamp = "c2eaeec5-24aa-4f0a-bd8e-e7d01c89e78e",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -145,7 +147,7 @@ namespace eFashionShop.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "34765163-23f9-480c-b38e-38e92b67ebd0",
+                            ConcurrencyStamp = "92b4efb2-caf0-4a5d-aaf1-e3c57f9d2eb3",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -154,7 +156,7 @@ namespace eFashionShop.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF3sr+xLP6gd+wywBpj30m91t7kXpOafG+bzqCVWW49VpkI82we2lR43KE+PL3endQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENWKJNj7mft22XQOaRol9NZIwiNXnyVep4yPf3ByJVT1v3cQOxfG/1Alh7/HYHFc8A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -315,6 +317,8 @@ namespace eFashionShop.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("ProductImages");
                 });
 
@@ -472,6 +476,13 @@ namespace eFashionShop.Migrations
                     b.ToTable("AppUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("eFashionShop.Data.Entities.ProductImage", b =>
+                {
+                    b.HasOne("eFashionShop.Data.Entities.Product", null)
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("eFashionShop.Data.Entities.ProductInCategory", b =>
                 {
                     b.HasOne("eFashionShop.Data.Entities.Category", "Category")
@@ -481,7 +492,7 @@ namespace eFashionShop.Migrations
                         .IsRequired();
 
                     b.HasOne("eFashionShop.Data.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductInCategories")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -493,6 +504,13 @@ namespace eFashionShop.Migrations
 
             modelBuilder.Entity("eFashionShop.Data.Entities.Category", b =>
                 {
+                    b.Navigation("ProductInCategories");
+                });
+
+            modelBuilder.Entity("eFashionShop.Data.Entities.Product", b =>
+                {
+                    b.Navigation("ProductImages");
+
                     b.Navigation("ProductInCategories");
                 });
 #pragma warning restore 612, 618

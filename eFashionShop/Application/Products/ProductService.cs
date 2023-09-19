@@ -3,6 +3,8 @@ using eFashionShop.Application.Images;
 using eFashionShop.Data.EF;
 using eFashionShop.Data.Entities;
 using eFashionShop.Exceptions;
+using eFashionShop.Extensions;
+using eFashionShop.ViewModels.Catalog.Images;
 using eFashionShop.ViewModels.Catalog.ProductImages;
 using eFashionShop.ViewModels.Catalog.Products;
 using eFashionShop.ViewModels.Common;
@@ -21,72 +23,52 @@ namespace eFashionShop.Application.Products
     public class ProductService : IProductService
     {
         private readonly EShopDbContext _context;
-        private readonly IPhotoService _photoService;
-        private const string USER_CONTENT_FOLDER_NAME = "user-content";
+        private readonly IImageService _imageService;
 
-        public ProductService(EShopDbContext context, IPhotoService photoService)
+        public ProductService(EShopDbContext context, IImageService imageService)
         {
             _context = context;
-            _photoService = photoService;
+            _imageService = imageService;
         }
 
-        public async Task<int> AddImage(int productId, ProductImageCreateRequest request)
-        {
-            var productImage = new ProductImage()
-            {
-                Caption = request.Caption,
-                DateCreated = DateTime.Now,
-                IsDefault = request.IsDefault,
-                ProductId = productId,
-                SortOrder = request.SortOrder
-            };
+        //public async Task<int> AddImage(int productId, ProductImageCreateRequest request)
+        //{
+        //    var productImage = new ProductImage()
+        //    {
+        //        Caption = request.Caption,
+        //        DateCreated = DateTime.Now,
+        //        IsDefault = request.IsDefault,
+        //        ProductId = productId,
+        //        SortOrder = request.SortOrder
+        //    };
 
-            if (request.ImageFile != null)
-            {
-                var resultImage = await _photoService.AddPhotoAsync(request.ImageFile);
-                productImage.ImagePath = resultImage.SecureUrl.AbsoluteUri;
-                productImage.PublicId = resultImage.PublicId;
-                productImage.FileSize = request.ImageFile.Length;
-            }
-            _context.ProductImages.Add(productImage);
-            await _context.SaveChangesAsync();
-            return productImage.Id;
-        }
+        //    if (request.ImageFile != null)
+        //    {
+        //        var resultImage = await _photoService.AddPhotoAsync(request.ImageFile);
+        //        productImage.ImagePath = resultImage.SecureUrl.AbsoluteUri;
+        //        productImage.PublicId = resultImage.PublicId;
+        //        productImage.FileSize = request.ImageFile.Length;
+        //    }
+        //    _context.ProductImages.Add(productImage);
+        //    await _context.SaveChangesAsync();
+        //    return productImage.Id;
+        //}
 
-        public async Task<int> Create(ProductCreateRequest request)
+        public async Task<int> Create(ProductCreateRequest req)
         {
-            var product = new Product()
-            {
-                DateCreated = DateTime.Now,
-                Name = request.Name,
-                Description = request.Description,
-                Details = request.Details,
-                Customer = request.Customer,
-                Localtion = request.Localtion,
-                Area = request.Area,
-                IsFeatured = request.IsFeatured,
-            };
+            var product = new Product();
+
+            req.CopyProperties(product);
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
             //Save image
-            if (request.ThumbnailImage != null)
+            if (req.ThumbnailImage != null)
             {
-                var resultImage = await _photoService.AddPhotoAsync(request.ThumbnailImage);
-                var image = new ProductImage()
-                {
-                    ProductId = product.Id,
-                    Caption = "Thumbnail image",
-                    DateCreated = DateTime.Now,
-                    FileSize = request.ThumbnailImage.Length,
-                    ImagePath = resultImage.SecureUrl.AbsoluteUri,
-                    PublicId = resultImage.PublicId,
-                    IsDefault = true,
-                    SortOrder = -1
-                };
-                _context.ProductImages.Add(image);
-                await _context.SaveChangesAsync();
+                ImageCreateRedVm image = new ImageCreateRedVm();
+                image.File = req.ThumbnailImage;
+                await _imageService.AddImage(image, product.Id);
             }
             return product.Id;
         }
@@ -99,7 +81,7 @@ namespace eFashionShop.Application.Products
             var images = _context.ProductImages.Where(i => i.ProductId == productId);
             foreach (var image in images)
             {
-                await _photoService.DeletePhotoAsync(image.PublicId);
+                await _imageService.DeleteImage(image.Id);
                 _context.ProductImages.Remove(image);
             }
 
@@ -301,7 +283,7 @@ namespace eFashionShop.Application.Products
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                await _photoService.DeletePhotoAsync(productImage.PublicId);
+                await _imageService.DeleteImage(productImage.Id);
                 return result;
             };
             throw new EShopException($"Cannot find an image with id {imageId}");
@@ -324,22 +306,22 @@ namespace eFashionShop.Application.Products
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request)
-        {
-            var productImage = await _context.ProductImages.FindAsync(imageId);
-            if (productImage == null)
-                throw new EShopException($"Cannot find an image with id {imageId}");
+        //public async Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request)
+        //{
+        //    var productImage = await _context.ProductImages.FindAsync(imageId);
+        //    if (productImage == null)
+        //        throw new EShopException($"Cannot find an image with id {imageId}");
 
-            if (request.ImageFile != null)
-            {
-                var resultImage = await _photoService.AddPhotoAsync(request.ImageFile);
-                productImage.ImagePath = resultImage.SecureUrl.AbsoluteUri;
-                productImage.PublicId = resultImage.PublicId;
-                productImage.FileSize = request.ImageFile.Length;
-            }
-            _context.ProductImages.Update(productImage);
-            return await _context.SaveChangesAsync();
-        }
+        //    if (request.ImageFile != null)
+        //    {
+        //        var resultImage = await _photoService.AddPhotoAsync(request.ImageFile);
+        //        productImage.ImagePath = resultImage.SecureUrl.AbsoluteUri;
+        //        productImage.PublicId = resultImage.PublicId;
+        //        productImage.FileSize = request.ImageFile.Length;
+        //    }
+        //    _context.ProductImages.Update(productImage);
+        //    return await _context.SaveChangesAsync();
+        //}
 
         public async Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request)
         {
@@ -395,28 +377,28 @@ namespace eFashionShop.Application.Products
 
             return data;
         }
-        public async Task<int> AddListImages(ImagesCreateVm request)
-        {
-            if (request.ImageFiles.Count > 0)
-            {
-                for (int i = 0; i < request.ImageFiles.Count; i++)
-                {
-                    if (request.ImageFiles[i] != null)
-                    {
-                        var resultImage = await _photoService.AddPhotoAsync(request.ImageFiles[i]);
-                        ProductImage image = new ProductImage();
-                        image.ImagePath = resultImage.SecureUrl.AbsoluteUri;
-                        image.PublicId = resultImage.PublicId;
-                        image.FileSize = request.ImageFiles[i].Length;
-                        image.ProductId = request.ProductId;
-                        image.DateCreated = DateTime.Now;
-                        image.IsDefault = false;
-                        _context.ProductImages.Add(image);
-                    }
-                }
-            }
-            return await _context.SaveChangesAsync();
-        }
+        //public async Task<int> AddListImages(ImagesCreateVm request)
+        //{
+        //    if (request.ImageFiles.Count > 0)
+        //    {
+        //        for (int i = 0; i < request.ImageFiles.Count; i++)
+        //        {
+        //            if (request.ImageFiles[i] != null)
+        //            {
+        //                var resultImage = await _photoService.AddPhotoAsync(request.ImageFiles[i]);
+        //                ProductImage image = new ProductImage();
+        //                image.ImagePath = resultImage.SecureUrl.AbsoluteUri;
+        //                image.PublicId = resultImage.PublicId;
+        //                image.FileSize = request.ImageFiles[i].Length;
+        //                image.ProductId = request.ProductId;
+        //                image.DateCreated = DateTime.Now;
+        //                image.IsDefault = false;
+        //                _context.ProductImages.Add(image);
+        //            }
+        //        }
+        //    }
+        //    return await _context.SaveChangesAsync();
+        //}
 
         public async Task<int> SetMainImage(int imageId, int productId)
         {

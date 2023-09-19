@@ -16,7 +16,7 @@ namespace eFashionShop.Data.Entities
         public double Area { get; set; }
         public DateTime DateCreated { set; get; }
         public bool IsFeatured { get; set; }
-        public List<ProductInCategory> ProductInCategories { get; set; }
-        public List<ProductImage> ProductImages { get; set; }
+        //public List<ProductInCategory> ProductInCategories { get; set; }
+        //public List<ProductImage> ProductImages { get; set; }
     }
 }
