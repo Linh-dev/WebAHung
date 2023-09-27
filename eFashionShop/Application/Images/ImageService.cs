@@ -86,32 +86,19 @@ namespace eFashionShop.Application.Images
                 }
                 else
                 {
-                    var fileName = item.File.FileName;
-                    string urlDb = BusinessSettings.USER_CONTENT_FOLDER_NAME + "image/" + fileName;
-                    string folderUpload = "wwwroot/" + urlDb;
-                    var urlImage = "";
-                    if (BusinessSettings.IsProduction)
+                    var a = BusinessSettings.USER_CONTENT_FOLDER_NAME();
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploadFile");
+                    if (!Directory.Exists(uploadsFolder))
                     {
-                        urlImage = Path.Combine(BusinessSettings.DomainUrl, folderUpload);
+                        Directory.CreateDirectory(uploadsFolder);
                     }
-                    else
+                    string ImagePath = Guid.NewGuid().ToString() + "_" + item.File.FileName;
+                    string filePath = Path.Combine(uploadsFolder, ImagePath);
+                    using (FileStream fs = new FileStream(filePath, FileMode.Create))
                     {
-                        var a = _webHostEnvironment.WebRootPath;
-                        var currentApplicationUrl = Directory.GetCurrentDirectory();
-                        urlImage = Path.Combine(currentApplicationUrl, folderUpload);
+                        await item.File.CopyToAsync(fs);
                     }
-
-                    if (!Directory.Exists(urlImage))
-                    {
-                        Directory.CreateDirectory(urlImage);
-                    }
-
-                    using (FileStream fs = new FileStream(urlImage + fileName, FileMode.Create))
-                    {
-                        item.File.CopyTo(fs);
-                    }
-                    image.ImagePath = urlDb;
-                    image.PublicId = "";
+                    image.ImagePath = "uploadFile/" + ImagePath;
                 }
 
                 image.Caption = item.Caption;
@@ -148,17 +135,16 @@ namespace eFashionShop.Application.Images
                 }
                 else
                 {
-                    var a = _webHostEnvironment.WebRootPath;
-                    var currentApplicationUrl = Directory.GetCurrentDirectory();
+                    var currentApplicationUrl = _webHostEnvironment.WebRootPath;
                     urlImage = Path.Combine(currentApplicationUrl, image.ImagePath);
                 }
                 if (File.Exists(urlImage))
                 {
                     File.Delete(urlImage);
+                    _context.ProductImages.Remove(image);
                 }
             }
 
-            _context.ProductImages.Remove(image);
             return await _context.SaveChangesAsync() > 0;
 
         }

@@ -66,7 +66,7 @@ namespace eFashionShop.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "5880f6d2-cec4-4a02-9465-327cf81c6121",
+                            ConcurrencyStamp = "f6dd2276-b5e9-4c92-9483-7272f62d14e1",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -145,7 +145,7 @@ namespace eFashionShop.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "34765163-23f9-480c-b38e-38e92b67ebd0",
+                            ConcurrencyStamp = "ad9dfeef-e5d8-40e5-a1b2-ff7c7eab5135",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -154,7 +154,7 @@ namespace eFashionShop.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF3sr+xLP6gd+wywBpj30m91t7kXpOafG+bzqCVWW49VpkI82we2lR43KE+PL3endQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEhmMtMH9Qhs9fHYVQB21ea/ikaDpo51bazl3GcoiGjIgIBCCiQpoI1quMlaEWCLNA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
