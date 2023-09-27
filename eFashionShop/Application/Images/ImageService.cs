@@ -4,11 +4,8 @@ using eFashionShop.Data.EF;
 using eFashionShop.Data.Entities;
 using eFashionShop.Utilities;
 using eFashionShop.ViewModels.Catalog.Images;
-using eFashionShop.ViewModels.Catalog.ProductImages;
-using eFashionShop.ViewModels.Catalog.Products;
 using eFashionShop.ViewModels.Common;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -86,19 +83,28 @@ namespace eFashionShop.Application.Images
                 }
                 else
                 {
-                    var a = BusinessSettings.USER_CONTENT_FOLDER_NAME();
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploadFile");
+                    string ImagePath = Guid.NewGuid().ToString() + "_" + item.File.FileName;
+                    var folerUpload = BusinessSettings.USER_CONTENT_FOLDER_NAME;
+                    string uploadsFolder = "";
+                    if (BusinessSettings.IsProduction)
+                    {
+                        uploadsFolder = Path.Combine(BusinessSettings.DomainUrl + "wwwroot/", folerUpload);
+                    }
+                    else
+                    {
+                        uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, folerUpload);
+
+                    }
                     if (!Directory.Exists(uploadsFolder))
                     {
                         Directory.CreateDirectory(uploadsFolder);
                     }
-                    string ImagePath = Guid.NewGuid().ToString() + "_" + item.File.FileName;
                     string filePath = Path.Combine(uploadsFolder, ImagePath);
                     using (FileStream fs = new FileStream(filePath, FileMode.Create))
                     {
                         await item.File.CopyToAsync(fs);
                     }
-                    image.ImagePath = "uploadFile/" + ImagePath;
+                    image.ImagePath = "/" + folerUpload + ImagePath;
                 }
 
                 image.Caption = item.Caption;
@@ -112,41 +118,46 @@ namespace eFashionShop.Application.Images
             }
             catch (Exception ex)
             {
-                throw (ex);
+                throw ex;
             }
 
         }
 
         public async Task<bool> DeleteImage(int id)
         {
-            var image = await _context.ProductImages.FirstOrDefaultAsync(x => x.Id == id);
-            if (image == null) return false;
+            try
+            {
+                var image = await _context.ProductImages.FirstOrDefaultAsync(x => x.Id == id);
+                if (image == null) return false;
 
-            if (BusinessSettings.ImageSaveInFolder)
-            {
-                await _photoServiece.DeletePhotoAsync(image.PublicId);
-            }
-            else
-            {
-                var urlImage = "";
-                if (BusinessSettings.IsProduction)
+                if (BusinessSettings.ImageSaveInFolder)
                 {
-                    urlImage = Path.Combine(BusinessSettings.DomainUrl, image.ImagePath);
+                    await _photoServiece.DeletePhotoAsync(image.PublicId);
                 }
                 else
                 {
-                    var currentApplicationUrl = _webHostEnvironment.WebRootPath;
-                    urlImage = Path.Combine(currentApplicationUrl, image.ImagePath);
+                    var urlImage = "";
+                    if (BusinessSettings.IsProduction)
+                    {
+                        urlImage = Path.Combine(BusinessSettings.DomainUrl + "wwwroot/", image.ImagePath);
+                    }
+                    else
+                    {
+                        var currentApplicationUrl = _webHostEnvironment.WebRootPath;
+                        urlImage = Path.Combine(currentApplicationUrl, image.ImagePath);
+                    }
+                    if (File.Exists(urlImage))
+                    {
+                        File.Delete(urlImage);
+                        _context.ProductImages.Remove(image);
+                    }
                 }
-                if (File.Exists(urlImage))
-                {
-                    File.Delete(urlImage);
-                    _context.ProductImages.Remove(image);
-                }
+                return await _context.SaveChangesAsync() > 0;
             }
-
-            return await _context.SaveChangesAsync() > 0;
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<PagedResult<ImageVm>> GetAll(GetManageImagePagingRequest request)

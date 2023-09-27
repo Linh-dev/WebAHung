@@ -1,49 +1,55 @@
-﻿using System.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace eFashionShop.Utilities
 {
-    public class BusinessSettings
+    static class BusinessSettings
     {
-        private static string GetConfigValue(string key)
+        public static IConfiguration AppSetting { get; }
+        static BusinessSettings()
         {
-            var value = ConfigurationManager.AppSettings[key];
-            return value;
+            AppSetting = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
         }
+
         public static bool ImageSaveInFolder
         {
             get
             {
-                if (string.IsNullOrEmpty(GetConfigValue("ImageSaveInFolder")))
+                if (string.IsNullOrEmpty(AppSetting["ImageSaveInFolder"]))
                 {
                     return false;
                 }
-                return bool.Parse(GetConfigValue("ImageSaveInFolder"));
+                return bool.Parse(AppSetting["ImageSaveInFolder"]);
             }
         }
         public static bool IsProduction
         {
             get
             {
-                if (string.IsNullOrEmpty(GetConfigValue("IsProduction")))
+                if (string.IsNullOrEmpty(AppSetting["IsProduction"]))
                 {
                     return false;
                 }
-                return bool.Parse(GetConfigValue("IsProduction"));
+                return bool.Parse(AppSetting["IsProduction"]);
             }
         }
         public static string DomainUrl
         {
             get
             {
-                return GetConfigValue("DomainUrl");
+                return AppSetting["DomainUrl"];
             }
         }
         public static string USER_CONTENT_FOLDER_NAME
         {
             get
             {
-                return GetConfigValue("USER_CONTENT_FOLDER_NAME");
+                return AppSetting["USER_CONTENT_FOLDER_NAME"];
             }
         }
+
     }
 }
