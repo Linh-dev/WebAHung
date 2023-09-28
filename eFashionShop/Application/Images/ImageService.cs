@@ -69,17 +69,20 @@ namespace eFashionShop.Application.Images
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> AddImage(ImageCreateRedVm item, int productId)
+        public async Task<ImageCreateRes> AddImage(ImageCreateRedVm item, int productId)
         {
             try
             {
                 ProductImage image = new ProductImage();
+                var res = new ImageCreateRes();
                 if (BusinessSettings.ImageSaveInFolder)
                 {
                     var resultImage = await _photoServiece.AddPhotoAsync(item.File);
-                    if (resultImage == null) return false;
-                    image.ImagePath = resultImage.SecureUrl.AbsoluteUri;
-                    image.PublicId = resultImage.PublicId;
+                    if (resultImage == null) return res;
+                    res.ImageUrl = resultImage.SecureUrl.AbsoluteUri;
+                    res.ImagePublishId = resultImage.PublicId;
+                    image.ImagePath = res.ImageUrl;
+                    image.PublicId = res.ImagePublishId;
                 }
                 else
                 {
@@ -104,7 +107,8 @@ namespace eFashionShop.Application.Images
                     {
                         await item.File.CopyToAsync(fs);
                     }
-                    image.ImagePath = "/" + folerUpload + ImagePath;
+                    res.ImageUrl = "/" + folerUpload + ImagePath;
+                    image.ImagePath = res.ImageUrl;
                 }
 
                 image.Caption = item.Caption;
@@ -114,7 +118,9 @@ namespace eFashionShop.Application.Images
                 image.IsDefault = false;
 
                 _context.ProductImages.Add(image);
-                return await _context.SaveChangesAsync() > 0;
+                await _context.SaveChangesAsync();
+                res.ImageId = image.Id;
+                return res;
             }
             catch (Exception ex)
             {
@@ -144,7 +150,7 @@ namespace eFashionShop.Application.Images
                     else
                     {
                         var currentApplicationUrl = _webHostEnvironment.WebRootPath;
-                        urlImage = Path.Combine(currentApplicationUrl, image.ImagePath);
+                        urlImage = currentApplicationUrl + image.ImagePath;
                     }
                     if (File.Exists(urlImage))
                     {

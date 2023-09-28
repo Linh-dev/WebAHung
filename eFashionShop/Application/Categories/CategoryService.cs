@@ -4,7 +4,9 @@ using eFashionShop.Data.Entities;
 using eFashionShop.Exceptions;
 using eFashionShop.Extensions;
 using eFashionShop.ViewModels.Catalog.Categories;
+using eFashionShop.ViewModels.Catalog.Images;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +30,13 @@ namespace eFashionShop.Application.Categories
             categoryVm.CopyProperties(category);
             if (categoryVm.File != null)
             {
-                //Todo bổ sung add image cho category
+                var imageFile = new ImageCreateRedVm();
+                imageFile.File = categoryVm.File;
+                var imageRes = await _imageService.AddImage(imageFile, 0);
+                category.ImageId = imageRes.ImageId;
+                category.ImageUrl = imageRes.ImageUrl;
+                category.ImagePublishId = imageRes.ImagePublishId;
+
             }
             _context.Categories.Add(category);
             return await _context.SaveChangesAsync() > 0;
@@ -36,35 +44,48 @@ namespace eFashionShop.Application.Categories
 
         public async Task<bool> Delete(int id)
         {
-            var category = _context.Categories.Find(id);
-            if (category == null) throw new EShopException("Delete fail!");
-            _context.Categories.Remove(category);
-            //Todo bổ sung delte image cho category
-            //if (!string.IsNullOrEmpty(category.ImagePublishId)) await _photoService.DeletePhotoAsync(category.ImagePublishId);
-            var childCategories = _context.Categories.Where(x => x.ParentId == category.Id);
-            if (childCategories.Any())
+            try
             {
-                var childCategories1 = await childCategories.ToListAsync();
-                foreach (var c in childCategories1)
+                var category = await _context.Categories.FindAsync(id);
+                if (category == null) throw new EShopException("Delete fail!");
+                //Todo bổ sung delte image cho category
+                await _imageService.DeleteImage(category.ImageId);
+
+                var childCategories = await _context.Categories.Where(x => x.ParentId == category.Id).ToListAsync();
+                var x = childCategories.Count();
+                if (childCategories.Any())
                 {
-                    _context.Categories.Remove(c);
-                    //Todo bổ sung delte image cho category
-                    //if (!string.IsNullOrEmpty(c.ImagePublishId)) await _photoService.DeletePhotoAsync(c.ImagePublishId);
+                    foreach (var c in childCategories)
+                    {
+                        _context.Categories.Remove(c);
+                        await _imageService.DeleteImage(c.ImageId);
+                    }
                 }
+                _context.Categories.Remove(category);
+                return await _context.SaveChangesAsync() > 0;
             }
-            return await _context.SaveChangesAsync() > 0;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> Edit(CategoryUpdateVm categoryUpdateVm)
         {
-            var category = _context.Categories.Find(categoryUpdateVm.Id);
+            var category = await _context.Categories.FindAsync(categoryUpdateVm.Id);
             if (category == null) throw new EShopException("Update fail!");
             categoryUpdateVm.CopyProperties(category);
 
             if (categoryUpdateVm.File != null)
             {
-                //Todo bổ sung add image cho category
-                //var image = await _photoService.AddPhotoAsync(categoryUpdateVm.File);
+                // xoa anh cu
+                await _imageService.DeleteImage(category.ImageId);
+                var imageFile = new ImageCreateRedVm();
+                imageFile.File = categoryUpdateVm.File;
+                var imageRes = await _imageService.AddImage(imageFile, 0);
+                category.ImageId = imageRes.ImageId;
+                category.ImageUrl = imageRes.ImageUrl;
+                category.ImagePublishId = imageRes.ImagePublishId;
             }
             _context.Update(category);
             return await _context.SaveChangesAsync() > 0;
@@ -113,9 +134,9 @@ namespace eFashionShop.Application.Categories
             return res;
         }
 
-        public async Task<List<CategoryVm>> GetListParent()
+        public async Task<List<CategoryVm>> GetListParent(int id = 0)
         {
-            var query = from c in _context.Categories where c.ParentId == -1
+            var query = from c in _context.Categories where c.ParentId == -1 && c.Id != id
                         select new { c };
             var x = await query.Select(x => new CategoryVm()
             {

@@ -12,7 +12,7 @@ namespace eFashionShop.Application.Categories
         Task<CategoryUpdateVm> GetByIdForUpdate(int id);
         Task<bool> Create(CategoryCreateVm categoryVm);
         Task<bool> Delete(int id);
-        Task<List<CategoryVm>> GetListParent();
+        Task<List<CategoryVm>> GetListParent(int id = 0);
         Task<bool> Edit(CategoryUpdateVm categoryUpdateVm);
     }
 }

@@ -66,7 +66,7 @@ namespace eFashionShop.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f6dd2276-b5e9-4c92-9483-7272f62d14e1",
+                            ConcurrencyStamp = "4a8b932f-8373-4bb7-9d2b-df52cd47cace",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -145,7 +145,7 @@ namespace eFashionShop.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ad9dfeef-e5d8-40e5-a1b2-ff7c7eab5135",
+                            ConcurrencyStamp = "c6d831a7-1276-472c-9662-9a512f699290",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -154,7 +154,7 @@ namespace eFashionShop.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEhmMtMH9Qhs9fHYVQB21ea/ikaDpo51bazl3GcoiGjIgIBCCiQpoI1quMlaEWCLNA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBu9Fckewcz17FxhEmibgMLl3ThoVAL0I7+CIj1WDxn15BEk6AdTPWpAmgAYoMPa6w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -169,6 +169,9 @@ namespace eFashionShop.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagePublishId")
                         .HasColumnType("nvarchar(max)");

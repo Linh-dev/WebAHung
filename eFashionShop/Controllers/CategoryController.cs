@@ -1,13 +1,8 @@
 ﻿using eFashionShop.Application.Categories;
 using eFashionShop.Application.Images;
 using eFashionShop.Application.Products;
-using eFashionShop.Constants;
-using eFashionShop.ViewModels.Catalog.Products;
-using eFashionShop.ViewModels.WebAppViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace eFashionShop.Controllers

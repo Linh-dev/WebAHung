@@ -13,7 +13,7 @@ namespace eFashionShop.Application.Images
         Task<PagedResult<ImageVm>> GetAll(GetManageImagePagingRequest request);
         Task<List<ImageVm>> GetFeaturedImages(int count);
         Task<bool> SetFeaturedImage(int id);
-        Task<bool> AddImage(ImageCreateRedVm red, int productId);
+        Task<ImageCreateRes> AddImage(ImageCreateRedVm red, int productId);
         Task<bool> DeleteImage(int id);
     }
 }

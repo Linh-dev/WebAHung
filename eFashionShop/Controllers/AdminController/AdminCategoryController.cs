@@ -1,5 +1,6 @@
 ﻿using eFashionShop.Application.Categories;
 using eFashionShop.ViewModels.Catalog.Categories;
+using eFashionShop.ViewModels.System.Products;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -18,10 +19,10 @@ namespace eFashionShop.Controllers.AdminController
             return View(data);
         }
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = _categoryService.Delete(id);
-            if (result.IsCompleted)
+            var result = await _categoryService.Delete(id);
+            if (result)
             {
                 TempData["result"] = "Xoá Thành công";
                 return RedirectToAction("Index");
@@ -66,7 +67,7 @@ namespace eFashionShop.Controllers.AdminController
         public async Task<IActionResult> Edit(int id)
         {
             var res = await _categoryService.GetByIdForUpdate(id);
-            var ListCategoryParent = await _categoryService.GetListParent();
+            var ListCategoryParent = await _categoryService.GetListParent(id);
             ViewBag.ListCategoryParent = ListCategoryParent;
             return View(res);
         }
@@ -75,15 +76,15 @@ namespace eFashionShop.Controllers.AdminController
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Edit([FromForm] CategoryUpdateVm res)
         {
-            var ListCategoryParent = await _categoryService.GetListParent();
+            var ListCategoryParent = await _categoryService.GetListParent(res.Id);
             if (!ModelState.IsValid)
             {
                 ViewBag.ListCategoryParent = ListCategoryParent;
                 return View(res);
             }
 
-            var result = _categoryService.Edit(res);
-            if (result.Result)
+            var result = await _categoryService.Edit(res);
+            if (result)
             {
                 TempData["result"] = "Thêm mới thành công";
                 return RedirectToAction("Index");

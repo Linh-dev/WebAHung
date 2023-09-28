@@ -8,11 +8,11 @@
 <h1>Thêm mới danh mục</h1>
 
 <div>
-    <a asp-action="Index" class="bg-light">Trở về</a>
+    <a asp-action="Index" class="btn btn-success">Trở về</a>
 </div>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" style="margin-left: 10px;">
         <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -20,17 +20,20 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsShowOnHome" /> Hiển thị trên web
                 </label>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="File" class="control-label"></label>
                 <input asp-for="File" type="file" class="form-control" />
                 <span asp-validation-for="File" class="text-danger"></span>
             </div>
-            <div class="form-group" hidden>
+            <br />
+            <div class="form-group">
                 <label asp-for="ParentId" class="control-label">Danh mục cha: </label>
                 <select asp-for="ParentId" name="ParentId">
                     <option value="-1"></option>
@@ -44,9 +47,11 @@
                 </select>
                 <span asp-validation-for="ParentId" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input hidden value="Active" asp-for="Status" />
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

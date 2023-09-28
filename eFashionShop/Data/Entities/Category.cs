@@ -1,8 +1,5 @@
 ﻿using eFashionShop.Data.Enums;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace eFashionShop.Data.Entities
 {
@@ -16,6 +13,7 @@ namespace eFashionShop.Data.Entities
         public Status Status { set; get; }
         public string ImagePublishId { set; get; }
         public string ImageUrl { set; get; }
+        public int ImageId { set; get; }
         public List<ProductInCategory> ProductInCategories { get; set; }
     }
 }
