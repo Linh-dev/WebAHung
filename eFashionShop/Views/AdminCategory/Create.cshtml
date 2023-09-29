@@ -33,21 +33,21 @@
                 <span asp-validation-for="File" class="text-danger"></span>
             </div>
             <br />
-            <div class="form-group">
-                <label asp-for="ParentId" class="control-label">Danh mục cha: </label>
-                <select asp-for="ParentId" name="ParentId">
-                    <option value="-1"></option>
-                    @if (ViewBag.ListCategoryParent != null)
-                    {
-                        foreach (var item in ViewBag.ListCategoryParent)
+            @if (ViewBag.ListCategoryParent != null && (ViewBag.ListCategoryParent.Count > 0))
+            {
+                <div class="form-group">
+                    <label asp-for="ParentId" class="control-label">Danh mục cha: </label>
+                    <select asp-for="ParentId" name="ParentId">
+                        <option value="-1"></option>
+                        @foreach (var item in ViewBag.ListCategoryParent)
                         {
                             <option value="@item.Id">@item.Name</option>
                         }
-                    }
-                </select>
-                <span asp-validation-for="ParentId" class="text-danger"></span>
-            </div>
-            <br />
+                    </select>
+                    <span asp-validation-for="ParentId" class="text-danger"></span>
+                </div>
+                <br />
+            }
             <div class="form-group">
                 <input hidden value="Active" asp-for="Status" />
             </div>

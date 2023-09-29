@@ -6,10 +6,6 @@
 }
 <div class="container-fluid">
     <h1 class="mt-4">Danh sách ảnh</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active">Danh sách ảnh</li>
-    </ol>
     <div class="card mb-12">
         <div class="card-header">
             <div class="row">
@@ -34,7 +30,7 @@
                                 onclick="location.href='@Url.Action("SetFeaturedImage", "AdminImage", new { id = @photo.Id})'">
                                 Main
                                 </button>
-                                <button disabled="@(photo.IsFeatured)"
+                                <button
                                 class="btn btn-sm btn-danger flex-grow-1"
                                 type="button"
                                 onclick="location.href='@Url.Action("DeleteImage", "AdminImage", new { id = @photo.Id})'">
