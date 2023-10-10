@@ -1,8 +1,5 @@
 ﻿using eFashionShop.ViewModels.Catalog.Images;
-using eFashionShop.ViewModels.Catalog.ProductImages;
-using eFashionShop.ViewModels.Catalog.Products;
 using eFashionShop.ViewModels.Common;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
